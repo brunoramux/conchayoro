@@ -24,3 +24,25 @@ jobs:
                 path: build-result.txt
             - name: use of artifact created
               run: ls build-result.txt
+    
+    jobx:
+        runs-on: ubuntu-latest 
+        steps:
+            - name: configuração do node (pesquisar no marketplace...) 
+              uses: actions/setup-node@v3
+              with:
+                node-version: 18
+            - name: verification of node version 
+              run: node --version
+
+    hello_world_job:
+        runs-on: ubuntu-latest
+        name: Example of custom action
+        steps:
+            - name: Checkout Actions
+              uses: actions/checkout@v2
+            - id: step-caller
+              uses: "./.github/actions/hello"
+              with:
+                the-caller: 'Myself'
+            - run: echo random-number ${{ steps.step-caller.outputs.random-number }}
